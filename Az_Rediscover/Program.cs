@@ -1,23 +1,24 @@
+using Az_Rediscover.Services;
 using Az_RediscoverWeekly.Services;
+using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
-using System;
 
 var host = new HostBuilder()
-    .ConfigureFunctionsWorkerDefaults()
-    .ConfigureLogging((hostingContext, logging) =>
-    {
-        Log.Logger = new LoggerConfiguration()
-            .WriteTo.Console(LogEventLevel.Information, outputTemplate:
-             "[{Timestamp:yyyy-MM-dd HH:mm:ss} {SourceContext} [{Level}] {Message}{NewLine}{Exception}")
-            .CreateLogger();
+    .ConfigureFunctionsWebApplication()
+      .ConfigureLogging((hostingContext, logging) =>
+      {
+          Log.Logger = new LoggerConfiguration()
+              .WriteTo.Console(LogEventLevel.Information, outputTemplate:
+               "[{Timestamp:yyyy-MM-dd HH:mm:ss} {SourceContext} [{Level}] {Message}{NewLine}{Exception}")
+              .CreateLogger();
 
-        logging.AddSerilog(Log.Logger, true);
-    })
-    .ConfigureAppConfiguration((hostContext, config) =>
+          logging.AddSerilog(Log.Logger, true);
+      })
+       .ConfigureAppConfiguration((hostContext, config) =>
        {
            if (hostContext.HostingEnvironment.IsDevelopment())
            {
@@ -27,6 +28,7 @@ var host = new HostBuilder()
        })
     .ConfigureServices((context, services) =>
     {
+        services.AddLogging();
         services.AddDataProtection();
         services.AddMemoryCache();
         services.AddScoped<DataProtectorService>();
@@ -40,4 +42,4 @@ var host = new HostBuilder()
     })
     .Build();
 
-await host.RunAsync();
+host.Run();

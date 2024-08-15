@@ -9,11 +9,12 @@ using System.Text.Json.Nodes;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Web;
-using Az_RediscoverWeekly.Models;
-using Az_RediscoverWeekly.Models.Spotify;
+using Az_Rediscover.Models.Spotify;
 using System.Net.Http;
+using Az_Rediscover.Models;
+using Az_RediscoverWeekly.Services;
 
-namespace Az_RediscoverWeekly.Services
+namespace Az_Rediscover.Services
 {
     /// <summary>
     /// Service for interacting with the Spotify API.

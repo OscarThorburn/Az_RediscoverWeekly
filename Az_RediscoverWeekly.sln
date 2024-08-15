@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Az_RediscoverWeekly", "Az_RediscoverWeekly\Az_RediscoverWeekly.csproj", "{B0331899-301B-47C3-ABE1-B4DC0623C7A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Az_RediscoverWeekly", "Az_RediscoverWeekly\Az_RediscoverWeekly.csproj", "{B0331899-301B-47C3-ABE1-B4DC0623C7A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Az_Rediscover", "Az_Rediscover\Az_Rediscover.csproj", "{3C3EBAD5-B041-44E4-96C7-DDBDE4EA6F6B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{B0331899-301B-47C3-ABE1-B4DC0623C7A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0331899-301B-47C3-ABE1-B4DC0623C7A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0331899-301B-47C3-ABE1-B4DC0623C7A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C3EBAD5-B041-44E4-96C7-DDBDE4EA6F6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C3EBAD5-B041-44E4-96C7-DDBDE4EA6F6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C3EBAD5-B041-44E4-96C7-DDBDE4EA6F6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C3EBAD5-B041-44E4-96C7-DDBDE4EA6F6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

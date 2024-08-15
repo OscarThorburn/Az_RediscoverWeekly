@@ -11,10 +11,12 @@ namespace Az_RediscoverWeekly
     
     public class RediscoverWeeklyFunction
     {
-        private readonly IServiceProvider _serviceProvider;
-        public RediscoverWeeklyFunction(IServiceProvider serviceProvider)
+        private readonly SpotifyService _spotifyService;
+        //private readonly IServiceProvider _serviceProvider;
+        public RediscoverWeeklyFunction(SpotifyService spotifyService)
         {
-            _serviceProvider = serviceProvider;
+            //_serviceProvider = serviceProvider;
+            _spotifyService = spotifyService;
         }
 
         [FunctionName("RediscoverWeeklyFunction")]
@@ -24,10 +26,8 @@ namespace Az_RediscoverWeekly
             {
                 log.LogInformation("Started function at: {Time}", DateTime.Now);
 
-                using var scope = _serviceProvider.CreateScope();
-                var spotifyService = scope.ServiceProvider.GetRequiredService<SpotifyService>();
 
-                var result = await spotifyService.RediscoverAsync();
+                var result = await _spotifyService.RediscoverAsync();
 
                 if (result.HasError)
                     log.LogError("Error during Rediscover: {ErrorMessage}", result.ErrorMessage);
