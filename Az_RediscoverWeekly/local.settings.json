@@ -1,9 +1,0 @@
-{
-  "IsEncrypted": false,
-  "Values": {
-
-    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-    "Spotify:DiscoverWeeklyPlaylistId": "37i9dQZEVXcJ7tfSeT6Ho9"
-  }
-}
