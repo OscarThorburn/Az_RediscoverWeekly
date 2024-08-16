@@ -1,8 +1,9 @@
 {
   "IsEncrypted": false,
   "Values": {
+
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-    "FUNCTIONS_INPROC_NET8_ENABLED": "1",
-    "FUNCTIONS_WORKER_RUNTIME": "dotnet"
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "Spotify:DiscoverWeeklyPlaylistId": "37i9dQZEVXcJ7tfSeT6Ho9"
   }
 }

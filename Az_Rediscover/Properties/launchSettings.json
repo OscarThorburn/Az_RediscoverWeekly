@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Az_Rediscover": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7248",
+      "launchBrowser": false
+    }
+  }
+}
