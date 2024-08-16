@@ -37,7 +37,8 @@ namespace Az_Rediscover.Services
             _memoryCacheService = memoryCacheService;
             //_secretService = secretService;
             //SecretService secretService,
-            _discoverWeeklyPlaylistId = config.GetValue<string>("Spotify:DiscoverWeeklyPlaylistId")!;
+            //TODO: Implement settings config
+            _discoverWeeklyPlaylistId = "37i9dQZEVXcJ7tfSeT6Ho9";//config.GetValue<string>("Spotify:DiscoverWeeklyPlaylistId")!;
         }
 
         public async Task<ResultModel<bool>> RediscoverAsync()
