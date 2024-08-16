@@ -1,9 +1,0 @@
-{
-  "profiles": {
-    "Az_RediscoverWeekly": {
-      "commandName": "Project",
-      "commandLineArgs": "--port 7253",
-      "launchBrowser": false
-    }
-  }
-}
