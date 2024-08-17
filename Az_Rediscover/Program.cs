@@ -1,5 +1,5 @@
 using Az_Rediscover.Services;
-using Az_RediscoverWeekly.Services;
+using Azure.Identity;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +25,14 @@ var host = new HostBuilder()
                config.AddJsonFile("local.settings.json");
            }
            config.AddEnvironmentVariables();
+           config.AddAzureAppConfiguration(options =>
+           {
+               options.Connect(new Uri("https://RediscoverAppConfig.azconfig.io"), new DefaultAzureCredential())
+                    .ConfigureKeyVault(kv =>
+                    {
+               kv.SetCredential(new DefaultAzureCredential());
+                        });
+           });
        })
     .ConfigureServices((context, services) =>
     {
@@ -33,7 +41,6 @@ var host = new HostBuilder()
         services.AddMemoryCache();
         services.AddScoped<DataProtectorService>();
         services.AddScoped<SpotifyService>();
-        services.AddSingleton<SecretService>();
         services.AddScoped<MemoryCacheService>();
         services.AddHttpClient("SpotifyClient", client =>
         {

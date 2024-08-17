@@ -1,18 +1,12 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Text.Json;
-using System.Threading.Tasks;
 using System.Web;
 using Az_Rediscover.Models.Spotify;
-using System.Net.Http;
 using Az_Rediscover.Models;
-using Az_RediscoverWeekly.Services;
 
 namespace Az_Rediscover.Services
 {
@@ -22,19 +16,20 @@ namespace Az_Rediscover.Services
     public class SpotifyService
     {
         //TODO: Move to 1pass
-        private readonly string RefreshToken = "xx";
-        private readonly string ClientId = "xx";
-        private readonly string ClientSecret = "xx";
-
+        private readonly string _refreshToken;
+        private readonly string _clientId = Environment.GetEnvironmentVariable("SpotifyClientId")!;
+        private readonly string _clientSecret;
         private readonly string _discoverWeeklyPlaylistId;
+
         private readonly IHttpClientFactory _clientFactory;
         private readonly MemoryCacheService _memoryCacheService;
-        private readonly SecretService _secretService;
 
         public SpotifyService(IHttpClientFactory httpClientFactory, MemoryCacheService memoryCacheService,  IConfiguration config)
         {
             _clientFactory = httpClientFactory;
             _memoryCacheService = memoryCacheService;
+            _refreshToken = config["SpotifyRefreshToken"];
+            _clientSecret = config["SpotifyClientSecret"];
             _discoverWeeklyPlaylistId = Environment.GetEnvironmentVariable("DiscoverWeeklyPlaylistId")!;
         }
 
@@ -213,14 +208,14 @@ namespace Az_Rediscover.Services
             var httpBody = new Dictionary<string, string>
                 {
                     { "grant_type", "refresh_token" },
-                    { "refresh_token", RefreshToken }
+                    { "refresh_token", _refreshToken }
                 };
 
             var content = new FormUrlEncodedContent(httpBody);
 
             using (var client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes($"{ClientId}:{ClientSecret}")));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes($"{_clientId}:{_clientSecret}")));
 
                 var response = await client.PostAsync(Environment.GetEnvironmentVariable("SpotifyAuthUrl"), content);
 

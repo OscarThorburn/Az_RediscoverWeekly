@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using Az_Rediscover.Services;
-using Az_RediscoverWeekly.Services;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -13,10 +12,8 @@ namespace Az_RediscoverWeekly
     {
         private readonly SpotifyService _spotifyService;
         private readonly ILogger<RediscoverWeeklyFunction> _logger;
-        //private readonly IServiceProvider _serviceProvider;
         public RediscoverWeeklyFunction(SpotifyService spotifyService, ILogger<RediscoverWeeklyFunction> logger)
         {
-            //_serviceProvider = serviceProvider;
             _spotifyService = spotifyService;
             _logger = logger;
         }
