@@ -35,10 +35,7 @@ namespace Az_Rediscover.Services
         {
             _clientFactory = httpClientFactory;
             _memoryCacheService = memoryCacheService;
-            //_secretService = secretService;
-            //SecretService secretService,
-            //TODO: Implement settings config
-            _discoverWeeklyPlaylistId = "37i9dQZEVXcJ7tfSeT6Ho9";//config.GetValue<string>("Spotify:DiscoverWeeklyPlaylistId")!;
+            _discoverWeeklyPlaylistId = Environment.GetEnvironmentVariable("DiscoverWeeklyPlaylistId")!;
         }
 
         public async Task<ResultModel<bool>> RediscoverAsync()
@@ -225,7 +222,7 @@ namespace Az_Rediscover.Services
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes($"{ClientId}:{ClientSecret}")));
 
-                var response = await client.PostAsync("https://accounts.spotify.com/api/token", content);
+                var response = await client.PostAsync(Environment.GetEnvironmentVariable("SpotifyAuthUrl"), content);
 
                 if (!response.IsSuccessStatusCode)
                 {

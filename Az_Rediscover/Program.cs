@@ -23,8 +23,8 @@ var host = new HostBuilder()
            if (hostContext.HostingEnvironment.IsDevelopment())
            {
                config.AddJsonFile("local.settings.json");
-               config.AddEnvironmentVariables();
            }
+           config.AddEnvironmentVariables();
        })
     .ConfigureServices((context, services) =>
     {
@@ -37,8 +37,7 @@ var host = new HostBuilder()
         services.AddScoped<MemoryCacheService>();
         services.AddHttpClient("SpotifyClient", client =>
         {
-            //TODO: Implement settings config
-            client.BaseAddress = new Uri("https://api.spotify.com/v1/");//new Uri(context.Configuration.GetValue<string>("Spotify:BaseAdressApi")!);
+            client.BaseAddress = new Uri(Environment.GetEnvironmentVariable("SpotifyBaseApiUrl")!);
         });
     })
     .Build();
