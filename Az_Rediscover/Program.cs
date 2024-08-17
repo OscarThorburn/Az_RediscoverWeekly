@@ -20,19 +20,23 @@ var host = new HostBuilder()
       })
        .ConfigureAppConfiguration((hostContext, config) =>
        {
+           config.AddEnvironmentVariables();
            if (hostContext.HostingEnvironment.IsDevelopment())
            {
                config.AddJsonFile("local.settings.json");
            }
-           config.AddEnvironmentVariables();
-           config.AddAzureAppConfiguration(options =>
+           else 
            {
-               options.Connect(new Uri("https://RediscoverAppConfig.azconfig.io"), new DefaultAzureCredential())
-                    .ConfigureKeyVault(kv =>
-                    {
-               kv.SetCredential(new DefaultAzureCredential());
+               config.AddAzureAppConfiguration(options =>
+               {
+                   options.Connect(new Uri("https://RediscoverAppConfig.azconfig.io"), new DefaultAzureCredential())
+                        .ConfigureKeyVault(kv =>
+                        {
+                            kv.SetCredential(new DefaultAzureCredential());
                         });
-           });
+               });
+           }
+           
        })
     .ConfigureServices((context, services) =>
     {
