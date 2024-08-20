@@ -16,7 +16,7 @@ namespace Az_RediscoverWeekly
         }
 
         [Function("RediscoverWeeklyFunction")]
-        public async Task Run([TimerTrigger("0 */2 * * * *")]TimerInfo myTimer)
+        public async Task Run([TimerTrigger("0 0 9 * * 1")]TimerInfo myTimer)
         {
             try
             {

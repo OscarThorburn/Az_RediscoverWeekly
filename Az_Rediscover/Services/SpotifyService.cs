@@ -64,6 +64,7 @@ namespace Az_Rediscover.Services
                 };
 
             Log.Information("Succesfully added tracks to rediscovered playlist");
+
             return new ResultModel<bool>
             {
                 Value = true
