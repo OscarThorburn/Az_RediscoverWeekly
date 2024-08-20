@@ -24,18 +24,6 @@ var host = new HostBuilder()
            {
                config.AddJsonFile("local.settings.json");
            }
-           else 
-           {
-               config.AddAzureAppConfiguration(options =>
-               {
-                   options.Connect(new Uri("https://RediscoverAppConfig.azconfig.io"), new DefaultAzureCredential())
-                        .ConfigureKeyVault(kv =>
-                        {
-                            kv.SetCredential(new DefaultAzureCredential());
-                        });
-               });
-           }
-           
        })
     .ConfigureServices((context, services) =>
     {
@@ -47,7 +35,7 @@ var host = new HostBuilder()
         services.AddScoped<MemoryCacheService>();
         services.AddHttpClient("SpotifyClient", client =>
         {
-            client.BaseAddress = new Uri(Environment.GetEnvironmentVariable("SpotifyBaseApiUrl")!);
+            client.BaseAddress = new Uri(Environment.GetEnvironmentVariable("APPSETTING_SpotifyBaseApiUrl")!);
         });
     })
     .Build();

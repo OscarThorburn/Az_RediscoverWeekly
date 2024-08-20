@@ -10,28 +10,32 @@ using Az_Rediscover.Models;
 
 namespace Az_Rediscover.Services
 {
-	/// <summary>
-	/// Service for interacting with the Spotify API.
-	/// </summary>
-	//TODO: Implement handling of retryable response codes (429, 502, 503)
-	public class SpotifyService
+    /// <summary>
+    /// Service for interacting with the Spotify API.
+    /// </summary>
+    //TODO: Implement handling of retryable response codes (429, 502, 503)
+    public class SpotifyService
     {
         private readonly string _refreshToken;
         private readonly string _clientSecret;
         private readonly string _discoverWeeklyPlaylistId;
-        private readonly string _clientId = Environment.GetEnvironmentVariable("SpotifyClientId")!;
-        private readonly string _userName = Environment.GetEnvironmentVariable("SpotifyUserName")!;
+        private readonly string _clientId;
+        private readonly string _userName;
+        private readonly string _authUrl;
 
         private readonly IHttpClientFactory _clientFactory;
         private readonly MemoryCacheService _memoryCacheService;
 
-        public SpotifyService(IHttpClientFactory httpClientFactory, MemoryCacheService memoryCacheService,  IConfiguration config)
+        public SpotifyService(IHttpClientFactory httpClientFactory, MemoryCacheService memoryCacheService)
         {
             _clientFactory = httpClientFactory;
             _memoryCacheService = memoryCacheService;
-            _refreshToken = config["SpotifyRefreshToken"]!;
-            _clientSecret = config["SpotifyClientSecret"]!;
-            _discoverWeeklyPlaylistId = Environment.GetEnvironmentVariable("DiscoverWeeklyPlaylistId")!;
+            _refreshToken = Environment.GetEnvironmentVariable("APPSETTING_SpotifyRefreshToken")!;
+            _clientSecret = Environment.GetEnvironmentVariable("APPSETTING_SpotifyClientSecret")!;
+            _discoverWeeklyPlaylistId = Environment.GetEnvironmentVariable("APPSETTING_DiscoverWeeklyPlaylistId")!;
+            _clientId = Environment.GetEnvironmentVariable("APPSETTING_SpotifyClientId")!;
+            _userName = Environment.GetEnvironmentVariable("APPSETTING_SpotifyUserName")!;
+            _authUrl = Environment.GetEnvironmentVariable("APPSETTING_SpotifyAuthUrl")!;
         }
 
         public async Task<ResultModel<bool>> RediscoverAsync()
@@ -42,6 +46,7 @@ namespace Az_Rediscover.Services
                 {
                     ErrorMessage = rediscoverPlaylistId.ErrorMessage
                 };
+            Log.Information("Created new playlist with Id {RediscoverPlaylistIdValue}", rediscoverPlaylistId.Value);
 
             var currentTracks = await GetCurrentDiscoverWeeklyTrackIdsAsync();
             if (currentTracks.HasError)
@@ -49,6 +54,7 @@ namespace Az_Rediscover.Services
                 {
                     ErrorMessage = currentTracks.ErrorMessage
                 };
+            Log.Information("Succesfully retrieved current tracks current discover weekly tracks");
 
             var result = await AddTracksToRediscoveredPlaylist(rediscoverPlaylistId.Value!, currentTracks.Value!);
             if (result.HasError)
@@ -57,6 +63,7 @@ namespace Az_Rediscover.Services
                     ErrorMessage = result.ErrorMessage
                 };
 
+            Log.Information("Succesfully added tracks to rediscovered playlist");
             return new ResultModel<bool>
             {
                 Value = true
@@ -218,7 +225,7 @@ namespace Az_Rediscover.Services
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes($"{_clientId}:{_clientSecret}")));
 
-                var response = await client.PostAsync(Environment.GetEnvironmentVariable("SpotifyAuthUrl"), content);
+                var response = await client.PostAsync(_authUrl, content);
 
                 if (!response.IsSuccessStatusCode)
                 {
