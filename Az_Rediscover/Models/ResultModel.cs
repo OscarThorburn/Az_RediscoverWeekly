@@ -1,5 +1,4 @@
-﻿
-namespace Az_Rediscover.Models
+﻿namespace Az_Rediscover.Models
 {
     /// <summary>
     /// A genereic result class to use through out the project to pass the result of a method.

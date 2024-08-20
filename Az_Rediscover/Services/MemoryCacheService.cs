@@ -1,12 +1,11 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
-using System;
 
 namespace Az_Rediscover.Services
 {
-    /// <summary>
-    /// Handles the caching of data in memory. Is used to reduce the number of request to KeyVault.
-    /// </summary>
-    public class MemoryCacheService
+	/// <summary>
+	/// Handles the caching of data in memory. The reason we store the token in memory even though its a function app is to have it on hand in case we get a retryable response from the Spotify API.
+	/// </summary>
+	public class MemoryCacheService
     {
         private readonly IMemoryCache _memoryCache;
         private readonly DataProtectorService _dataProtectorService;
@@ -23,7 +22,7 @@ namespace Az_Rediscover.Services
         /// <returns></returns>
         public bool TryGetToken(out string token)
         {
-            var result = _memoryCache.TryGetValue("SpotifyAccessToken", out token);
+            var result = _memoryCache.TryGetValue("SpotifyAccessToken", out token!);
             if (result)
                 token = _dataProtectorService.Unprotect(token!);
             return result;

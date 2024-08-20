@@ -10,16 +10,17 @@ using Az_Rediscover.Models;
 
 namespace Az_Rediscover.Services
 {
-    /// <summary>
-    /// Service for interacting with the Spotify API.
-    /// </summary>
-    public class SpotifyService
+	/// <summary>
+	/// Service for interacting with the Spotify API.
+	/// </summary>
+	//TODO: Implement handling of retryable response codes (429, 502, 503)
+	public class SpotifyService
     {
-        //TODO: Move to 1pass
         private readonly string _refreshToken;
-        private readonly string _clientId = Environment.GetEnvironmentVariable("SpotifyClientId")!;
         private readonly string _clientSecret;
         private readonly string _discoverWeeklyPlaylistId;
+        private readonly string _clientId = Environment.GetEnvironmentVariable("SpotifyClientId")!;
+        private readonly string _userName = Environment.GetEnvironmentVariable("SpotifyUserName")!;
 
         private readonly IHttpClientFactory _clientFactory;
         private readonly MemoryCacheService _memoryCacheService;
@@ -28,8 +29,8 @@ namespace Az_Rediscover.Services
         {
             _clientFactory = httpClientFactory;
             _memoryCacheService = memoryCacheService;
-            _refreshToken = config["SpotifyRefreshToken"];
-            _clientSecret = config["SpotifyClientSecret"];
+            _refreshToken = config["SpotifyRefreshToken"]!;
+            _clientSecret = config["SpotifyClientSecret"]!;
             _discoverWeeklyPlaylistId = Environment.GetEnvironmentVariable("DiscoverWeeklyPlaylistId")!;
         }
 
@@ -129,7 +130,7 @@ namespace Az_Rediscover.Services
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken.Value);
 
-                var response = await client.PostAsync("users/kanindraperi/playlists", content);
+                var response = await client.PostAsync($"users/{_userName}/playlists", content);
 
                 if (!response.IsSuccessStatusCode)
                 {

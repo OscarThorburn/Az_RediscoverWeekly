@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace Az_Rediscover.Models.Spotify
 {
-    /// <summary>
-    /// Represents the response model for the access token request used to authenticate with the Spotify API.
-    /// </summary>
-    public record struct AccessTokenResponseModel
+	/// <summary>
+	/// Represents the response model for the access token request used to authenticate with the Spotify API.
+	/// </summary>
+	public record struct AccessTokenResponseModel
     {
         [JsonPropertyName("access_token")]
         public string AccessToken { get; set; }
