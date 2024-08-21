@@ -1,5 +1,5 @@
 # What is it?
-GF forgets to listen to her Discover Weekly, build a AZ Function that rediscovers it once a week.
+GF forgets to listen to her Discover Weekly on Spotify, build a AZ Function that rediscovers it once a week.
 Used this project to practice az functions
 
 ## FYI
