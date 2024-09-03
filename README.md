@@ -1,10 +1,6 @@
-# Az_RediscoverWeekly
+# What is it?
+GF forgets to listen to her Discover Weekly on Spotify, build a AZ Function that rediscovers it once a week.
+Used this project to practice az functions
 
-GF forgets to listen to her Discover Weekly, build a AZ Function that rediscovers it once a week.
-Used this project to practice az functions and keyvault.
-
-Stores token encrypted in memory in case retry HTTP responses.
-
-//TODO:
-Implement retry functionality
-Implement Secret Service
+## FYI
+Stores token encrypted in memory in case retryable HTTP responses though Im to lazy to implement retryable HTTP response handling ¯\_(ツ)_/¯
