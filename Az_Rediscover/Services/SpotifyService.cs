@@ -25,11 +25,13 @@ namespace Az_Rediscover.Services
 
         private readonly IHttpClientFactory _clientFactory;
         private readonly MemoryCacheService _memoryCacheService;
+        private readonly ServiceBusService _serviceBus;
 
-        public SpotifyService(IHttpClientFactory httpClientFactory, MemoryCacheService memoryCacheService)
+        public SpotifyService(IHttpClientFactory httpClientFactory, MemoryCacheService memoryCacheService, ServiceBusService serviceBus)
         {
             _clientFactory = httpClientFactory;
             _memoryCacheService = memoryCacheService;
+            _serviceBus = serviceBus;
             _refreshToken = Environment.GetEnvironmentVariable("APPSETTING_SpotifyRefreshToken")!;
             _clientSecret = Environment.GetEnvironmentVariable("APPSETTING_SpotifyClientSecret")!;
             _discoverWeeklyPlaylistId = Environment.GetEnvironmentVariable("APPSETTING_DiscoverWeeklyPlaylistId")!;
@@ -64,8 +66,10 @@ namespace Az_Rediscover.Services
                 };
 
             Log.Information("Succesfully added tracks to rediscovered playlist");
+			await _serviceBus.SendMessageAsync($"Rediscover was successful at {DateTime.Now}", "Rediscover Weekly Done");
 
-            return new ResultModel<bool>
+
+			return new ResultModel<bool>
             {
                 Value = true
             };

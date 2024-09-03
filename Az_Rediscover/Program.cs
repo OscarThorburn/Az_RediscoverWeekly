@@ -7,7 +7,7 @@ using Serilog;
 using Serilog.Events;
 
 var host = new HostBuilder()
-    .ConfigureFunctionsWebApplication()
+      .ConfigureFunctionsWebApplication()
       .ConfigureLogging((hostingContext, logging) =>
       {
           Log.Logger = new LoggerConfiguration()
@@ -33,6 +33,7 @@ var host = new HostBuilder()
         services.AddScoped<DataProtectorService>();
         services.AddScoped<SpotifyService>();
         services.AddScoped<MemoryCacheService>();
+        services.AddScoped<ServiceBusService>();
         services.AddHttpClient("SpotifyClient", client =>
         {
             client.BaseAddress = new Uri(Environment.GetEnvironmentVariable("APPSETTING_SpotifyBaseApiUrl")!);
